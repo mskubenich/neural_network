@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 320
-  ClientWidth = 643
+  ClientHeight = 570
+  ClientWidth = 725
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,14 +17,15 @@ object Form1: TForm1
     Left = 8
     Top = 8
     Width = 627
-    Height = 273
+    Height = 554
     Lines.Strings = (
       'Memo1')
+    ScrollBars = ssVertical
     TabOrder = 0
   end
   object Learn: TButton
-    Left = 8
-    Top = 287
+    Left = 641
+    Top = 8
     Width = 75
     Height = 25
     Caption = 'Learn'

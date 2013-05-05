@@ -1,17 +1,3 @@
-
-
-void WriteLn(String text)
-{
-  static HANDLE handle;
-  if(!handle) {
-	AllocConsole();
-	handle = GetStdHandle(STD_OUTPUT_HANDLE);
-  }
-  text += "\n";
-  WriteConsole(handle,
-	text.c_str(), text.Length(), 0, 0);
-}
-
 class Neuron{
 
 private:
@@ -48,7 +34,9 @@ public:
   void update_weights(double);
 
   double getNet();
+  void setNet(double value){net = value;};
   double getWeight(int);
+  int getMode(){return mode;};
   void incrementWeight(int, double);
 
 };
@@ -63,7 +51,9 @@ class NeuralNetwork{
 	public:
 
   NeuralNetwork(int*, int);
-  void LearnEpoch(int *inputdata, int result);
+  int getNumberOfLayers(){return n_of_layers;};
+  int getNumberOfNeuronsInLayer(layer_number){return n_of_neurons_in_layers[layer_number];};
+  void LearnEpoch(int *inputdata, int result, TMemo* logMemo);
 };
 
 Neuron::Neuron(int n_of_input, int n_of_output, int pos, int mod, int func){
@@ -216,14 +206,20 @@ NeuralNetwork::NeuralNetwork(int* n_of_neurons_in_each_layer, int number_of_laye
   }
 }
 
-void NeuralNetwork::LearnEpoch(int* inputdata, int result){
-	 for(int i = n_of_layers - 1; i >= 0; i--){
-		int neurons_count = sizeof(neuro_net_array[i]);
+void NeuralNetwork::LearnEpoch(int* inputdata, int result, TMemo* logMemo){
+	for(int i = 0; i < n_of_layers; i++){
 		for (int j = 0; j < n_of_neurons_in_layers[i]; j++) {
-			//neyro_net_array[i][j];
-		}
-	 }
+			Neuron neuron = neuro_net_array[i][j];
+			logMemo->Lines->Add("Neuron["+AnsiString(i)+"]["+AnsiString(j)+"] Mode:"+AnsiString(neuron.getMode()));
+			if(neuron.getMode() == 1){
+				neuron.setNet(inputdata[j]);
+			}else{
+				//neuron.calculate_net();
+			}
+			logMemo->Lines->Add(" net -> "+AnsiString(neuron.getNet()));
 
+		}
+	}
 }
 
 
