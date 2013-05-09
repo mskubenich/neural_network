@@ -92,7 +92,7 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="NeuroLib.h">
+        <None Include="NeuralNetwork.h">
             <BuildOrder>3</BuildOrder>
         </None>
         <CppCompile Include="Project1.cpp">

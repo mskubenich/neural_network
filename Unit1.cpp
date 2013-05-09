@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
-#include "NeuroLib.h"
+#include "NeuralNetwork.h"
 #pragma hdrstop
 
 #include "Unit1.h"
@@ -27,11 +27,12 @@ void __fastcall TForm1::LearnClick(TObject *Sender)
 	}
 
 	int learn_array[10] = {0,1,2,3,4,5,6,7,8,9};
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 1; i++) {
 		Memo1->Lines->Add("-------------------------------");
 		Memo1->Lines->Add("learn epoch #"+AnsiString(i));
 		int val1 = learn_array[rand() % 10];
 		int val2 = learn_array[rand() % 10];
+		Memo1->Lines->Add("val1: "+AnsiString(val1)+"val2: "+AnsiString(val2));
 		int sum = val1 + val2;
 		int input_data[2] = {val1, val2};
 		net->LearnEpoch(input_data, sum, Memo1);
