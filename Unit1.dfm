@@ -119,7 +119,7 @@ object Form1: TForm1
   object GroupBox2: TGroupBox
     Left = 252
     Top = 0
-    Width = 824
+    Width = 477
     Height = 362
     Anchors = [akLeft, akTop, akRight, akBottom]
     Caption = #1043#1088#1072#1092#1110#1095#1085#1077' '#1087#1088#1077#1076#1089#1090#1072#1074#1083#1077#1085#1085#1103
@@ -136,7 +136,7 @@ object Form1: TForm1
     object ScrollBox2: TScrollBox
       Left = 2
       Top = 15
-      Width = 820
+      Width = 473
       Height = 345
       HorzScrollBar.Tracking = True
       VertScrollBar.Tracking = True
@@ -145,14 +145,29 @@ object Form1: TForm1
       Color = clBtnHighlight
       ParentColor = False
       TabOrder = 0
-      ExplicitWidth = 728
-      ExplicitHeight = 479
+      ExplicitWidth = 671
       object Image1: TImage
         Left = 3
         Top = 0
         Width = 483
         Height = 377
       end
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 735
+    Top = 0
+    Width = 341
+    Height = 360
+    Caption = #1052#1072#1090#1088#1080#1094#1110' '#1074#1072#1075
+    TabOrder = 4
+    object Memo2: TMemo
+      Left = 3
+      Top = 15
+      Width = 335
+      Height = 342
+      ScrollBars = ssVertical
+      TabOrder = 0
     end
   end
 end

@@ -23,6 +23,8 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox2;
 	TScrollBox *ScrollBox2;
 	TImage *Image1;
+	TGroupBox *GroupBox3;
+	TMemo *Memo2;
 	void __fastcall LearnClick(TObject *Sender);
 	void __fastcall Edit1Change(TObject *Sender);
 	void __fastcall Edit1KeyPress(TObject *Sender, System::WideChar &Key);

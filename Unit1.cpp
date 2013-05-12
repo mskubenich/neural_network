@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
+#include <math.h>
 #include "NeuralNetwork.h"
 #pragma hdrstop
 
@@ -39,6 +40,24 @@ void __fastcall TForm1::LearnClick(TObject *Sender)
 		int sum = val1 + val2;
 		int input_data[2] = {val1, val2};
 		net->LearnEpoch(input_data, sum, Memo1);
+
+		Memo2->Lines->Clear();
+		for(int j = 1; j < net->getNumberOfLayers(); j++){
+			Memo2->Lines->Add("Weight matrix between layers #"+AnsiString(j-1)+
+			" and #"+AnsiString(j));
+			Memo2->Lines->Add("");
+			for(int k = 0; k < net->getNumberOfNeuronsInLayer(j-1); k++){
+				AnsiString row = "";
+				for( int z = 0; z < net->getNumberOfNeuronsInLayer(j); z++){
+					AnsiString str;
+					double x = floor((net->getNeuron(j, z)->getWeight(k))*1000)/1000;
+
+					row += "   " + AnsiString(x);
+				}
+				Memo2->Lines->Add(row);
+			}
+			Memo2->Lines->Add("");
+		}
 	}
 }
 //---------------------------------------------------------------------------
