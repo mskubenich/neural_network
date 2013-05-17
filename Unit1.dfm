@@ -33,7 +33,7 @@ object Form1: TForm1
   end
   object Learn: TButton
     Left = 8
-    Top = 207
+    Top = 296
     Width = 238
     Height = 66
     Caption = 'Learn'
@@ -145,7 +145,6 @@ object Form1: TForm1
       Color = clBtnHighlight
       ParentColor = False
       TabOrder = 0
-      ExplicitWidth = 671
       object Image1: TImage
         Left = 3
         Top = 0
@@ -169,5 +168,14 @@ object Form1: TForm1
       ScrollBars = ssVertical
       TabOrder = 0
     end
+  end
+  object Button1: TButton
+    Left = 8
+    Top = 204
+    Width = 238
+    Height = 37
+    Caption = #1042#1074#1077#1089#1090#1080' '#1090#1077#1089#1090#1086#1074#1110' '#1076#1072#1085#1110
+    TabOrder = 5
+    OnClick = Button1Click
   end
 end
