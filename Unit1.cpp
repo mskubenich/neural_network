@@ -75,7 +75,7 @@ if (!flag) {
 	}
 	
 	int package_counter = 0;
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 100; i++) {
 		if(package_counter == package_count){
 			package_counter = 0;
 		}

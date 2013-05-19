@@ -73,16 +73,24 @@ Neuron::Neuron(NeuralNetwork *neural_network, int lay, int pos){
 	  input_weights[i] = (rand()%100)/100.0;
 	}
   }else{
-	input_weights = new double[0];
+	input_weights = new double[network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-2)];
+	for (int i = 0; i < network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-2); i++) {
+	  input_weights[i] = (rand()%100)/100.0;
+	}
   }
 
 }
 
 void Neuron::calculate_net(){
-	net_signal = 0;
 	if(layer > 0){
+		net_signal = 0;
 		for (int i=0; i < network->getNumberOfNeuronsInLayer(layer-1); i++) {
 			Neuron *neuron = network->getNeuron(layer-1,i);
+			net_signal += neuron->getActiveSignal()*(input_weights[i]);
+		}
+	}else{
+		for (int i=0; i < network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-2); i++) {
+			Neuron *neuron = network->getNeuron(network->getNumberOfLayers()-2,i);
 			net_signal += neuron->getActiveSignal()*(input_weights[i]);
 		}
 	}
@@ -90,15 +98,15 @@ void Neuron::calculate_net(){
 }
 
 void Neuron::active_function(){
-//  if (layer == network->getNumberOfLayers()-1) {
-//	if(net_signal > 0){
-//	  active_signal = 1;
-//	}else{
-//	  active_signal = 0;
-//	}
-//  }else{
+  if (layer == network->getNumberOfLayers()-1) {
+	if(net_signal > 0){
+	  active_signal = 1;
+	}else{
+	  active_signal = 0;
+	}
+  }else{
 	active_signal = 1/(1+exp(-net_signal));  //sigmoid
-//  }
+  }
 }
 
 void Neuron::calculate_error(){
@@ -114,6 +122,10 @@ void Neuron::update_weights(){
 	if(layer != 0){
 		for(int i = 0; i < network->getNumberOfNeuronsInLayer(layer-1); i++){
 			 input_weights[i] += learning_rate*error*active_signal;
+		}
+	}else{
+		for (int i=0; i < network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-2); i++) {
+			input_weights[i] += learning_rate*error*active_signal;
 		}
 	}
 	displacement -= learning_rate*error;
@@ -150,6 +162,10 @@ void NeuralNetwork::LearnEpoch(int* inputdata, double result, TMemo* logMemo){
 			AnsiString weights_string;
 			if(neuron->getLayer() == 0){
 				neuron->setNet(inputdata[j]);
+				neuron->calculate_net();
+				for (int z = 0; z < n_of_neurons_in_layers[n_of_layers - 2]; z++) {
+					weights_string += AnsiString(neuron->getWeight(z)) + ", ";
+				}
 			}else{
 				neuron->calculate_net();
 				for (int z = 0; z < n_of_neurons_in_layers[i-1]; z++) {
@@ -161,12 +177,10 @@ void NeuralNetwork::LearnEpoch(int* inputdata, double result, TMemo* logMemo){
 			logMemo->Lines->Add("   active signal -> "+AnsiString(neuron->getActiveSignal()));
 		}
 	}
-	double real_result = neuro_net_array[n_of_layers-1][0]->getNet();
+	double real_result = neuro_net_array[n_of_layers-1][0]->getActiveSignal();
 	double error = result - real_result;
 	logMemo->Lines->Add("");
-	logMemo->Lines->Add("value1:" + AnsiString(inputdata[0])+"  "+
-						"value2:" + AnsiString(inputdata[1])+"  "+
-						"expected result:" + AnsiString(result)+"  "+
+	logMemo->Lines->Add("expected result:" + AnsiString(result)+"  "+
 						"real result:" + AnsiString(real_result)+"  "+
 						"error:" + AnsiString(error)+"  ");
 	//backward propagation of errors
@@ -193,13 +207,11 @@ void NeuralNetwork::LearnEpoch(int* inputdata, double result, TMemo* logMemo){
 			Neuron *neuron = neuro_net_array[i][j];
 			logMemo->Lines->Add("Neuron["+AnsiString(i)+"]["+AnsiString(j)+"] ID:"+AnsiString((int)&*neuron));
 			neuron->update_weights();
-			if(neuron->getLayer() != 0){
-				AnsiString weights_string;
-				for (int z = 0; z < n_of_neurons_in_layers[i-1]; z++) {
-					weights_string += AnsiString(neuron->getWeight(z)) + ", ";
-				}
-				logMemo->Lines->Add("   input weights -> "+ weights_string);
+			AnsiString weights_string;
+			for (int z = 0; z < n_of_neurons_in_layers[i-1]; z++) {
+				weights_string += AnsiString(neuron->getWeight(z)) + ", ";
 			}
+			logMemo->Lines->Add("   input weights -> "+ weights_string);
 		}
 	}
 }

@@ -33,9 +33,9 @@ object Form1: TForm1
   end
   object Learn: TButton
     Left = 8
-    Top = 296
+    Top = 247
     Width = 238
-    Height = 66
+    Height = 34
     Caption = 'Learn'
     TabOrder = 1
     OnClick = LearnClick
