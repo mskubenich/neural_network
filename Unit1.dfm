@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'J.A.R.V.I.S.'
   ClientHeight = 600
   ClientWidth = 1084
   Color = clBtnFace
@@ -31,19 +31,10 @@ object Form1: TForm1
     ScrollBars = ssVertical
     TabOrder = 0
   end
-  object Learn: TButton
-    Left = 8
-    Top = 247
-    Width = 238
-    Height = 34
-    Caption = 'Learn'
-    TabOrder = 1
-    OnClick = LearnClick
-  end
   object GroupBox1: TGroupBox
     Left = 8
     Top = 0
-    Width = 241
+    Width = 258
     Height = 201
     Caption = #1055#1088#1086#1077#1082#1090#1091#1074#1072#1085#1085#1103
     Font.Charset = DEFAULT_CHARSET
@@ -52,7 +43,7 @@ object Form1: TForm1
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 1
     object Label1: TLabel
       Left = 11
       Top = 16
@@ -84,7 +75,7 @@ object Form1: TForm1
     object ScrollBox1: TScrollBox
       Left = 3
       Top = 65
-      Width = 235
+      Width = 252
       Height = 133
       VertScrollBar.Smooth = True
       VertScrollBar.Tracking = True
@@ -107,7 +98,7 @@ object Form1: TForm1
       end
     end
     object Button2: TButton
-      Left = 112
+      Left = 140
       Top = 34
       Width = 115
       Height = 25
@@ -117,9 +108,9 @@ object Form1: TForm1
     end
   end
   object GroupBox2: TGroupBox
-    Left = 252
+    Left = 272
     Top = 0
-    Width = 477
+    Width = 457
     Height = 362
     Anchors = [akLeft, akTop, akRight, akBottom]
     Caption = #1043#1088#1072#1092#1110#1095#1085#1077' '#1087#1088#1077#1076#1089#1090#1072#1074#1083#1077#1085#1085#1103
@@ -132,11 +123,11 @@ object Form1: TForm1
     ParentBackground = False
     ParentColor = False
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 2
     object ScrollBox2: TScrollBox
       Left = 2
       Top = 15
-      Width = 473
+      Width = 453
       Height = 345
       HorzScrollBar.Tracking = True
       VertScrollBar.Tracking = True
@@ -159,7 +150,7 @@ object Form1: TForm1
     Width = 341
     Height = 360
     Caption = #1052#1072#1090#1088#1080#1094#1110' '#1074#1072#1075
-    TabOrder = 4
+    TabOrder = 3
     object Memo2: TMemo
       Left = 3
       Top = 15
@@ -169,13 +160,64 @@ object Form1: TForm1
       TabOrder = 0
     end
   end
-  object Button1: TButton
+  object GroupBox4: TGroupBox
     Left = 8
     Top = 204
-    Width = 238
-    Height = 37
-    Caption = #1042#1074#1077#1089#1090#1080' '#1090#1077#1089#1090#1086#1074#1110' '#1076#1072#1085#1110
+    Width = 258
+    Height = 77
+    Caption = #1053#1072#1074#1095#1072#1085#1085#1103
+    TabOrder = 4
+    object Button1: TButton
+      Left = 3
+      Top = 16
+      Width = 121
+      Height = 25
+      Caption = #1042#1074#1077#1089#1090#1080' '#1090#1077#1089#1090#1086#1074#1110' '#1076#1072#1085#1110
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Learn: TButton
+      Left = 3
+      Top = 47
+      Width = 121
+      Height = 25
+      Caption = #1056#1086#1079#1087#1086#1095#1072#1090#1080' '#1085#1072#1074#1095#1072#1085#1085#1103
+      TabOrder = 1
+      OnClick = LearnClick
+    end
+    object Button4: TButton
+      Left = 134
+      Top = 47
+      Width = 121
+      Height = 25
+      Caption = #1047#1072#1074#1072#1085#1090#1072#1078#1080#1090#1080' '#1079' '#1092#1072#1081#1083#1091
+      TabOrder = 2
+    end
+  end
+  object GroupBox5: TGroupBox
+    Left = 8
+    Top = 282
+    Width = 258
+    Height = 80
+    Caption = #1056#1086#1073#1086#1095#1080#1081' '#1088#1077#1078#1080#1084
     TabOrder = 5
-    OnClick = Button1Click
+    object Button3: TButton
+      Left = 3
+      Top = 16
+      Width = 121
+      Height = 25
+      Caption = #1055#1088#1086#1081#1090#1080' '#1090#1077#1089#1090
+      TabOrder = 0
+      OnClick = Button3Click
+    end
+    object Button5: TButton
+      Left = 3
+      Top = 47
+      Width = 121
+      Height = 25
+      Caption = #1040#1091#1090#1077#1085#1090#1080#1092#1110#1082#1072#1094#1110#1103
+      TabOrder = 1
+      OnClick = Button5Click
+    end
   end
 end

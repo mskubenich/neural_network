@@ -14,7 +14,9 @@ TForm1 *Form1;
 
 int n_of_layers = 0;
 int* neurons_in_layer;
-int *learn_data_array = new int[999];
+float n_of_needed_symvols = 99;
+int *learn_data_array = new int[n_of_needed_symvols];
+NeuralNetwork *network;
 
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -41,7 +43,7 @@ if (!flag) {
 }
 
 	AnsiString array_string = AnsiString("");
-	for(int i = 0; i < 999; i++){
+	for(int i = 0; i < n_of_needed_symvols; i++){
 		array_string += learn_data_array[i];
 		array_string += "   ";
 	}
@@ -49,7 +51,7 @@ if (!flag) {
 
 	NeuralNetwork* net = new NeuralNetwork(neurons_in_layer, n_of_layers);
 
-	int package_count = ceil(999.0/net->getNumberOfNeuronsInLayer(0));
+	int package_count = ceil(1.0*n_of_needed_symvols/net->getNumberOfNeuronsInLayer(0));
 	int **packages = new int*[package_count];
 	for (int i = 0; i < package_count; i++) {
 		packages[i] = new int[net->getNumberOfNeuronsInLayer(0)];
@@ -58,7 +60,7 @@ if (!flag) {
 		AnsiString package_string = AnsiString("");
 		for(int j = 0; j < net->getNumberOfNeuronsInLayer(0); j++){
 			int index = j + i*net->getNumberOfNeuronsInLayer(0);
-			if(index < 999){ 
+			if(index < n_of_needed_symvols){
 				package_string += learn_data_array[index];
 				packages[i][j] = learn_data_array[index];
 			}else{
@@ -73,16 +75,28 @@ if (!flag) {
 	for(int i = 0 ; i < net->getNumberOfLayers(); i++){
 		Memo1->Lines->Add("number of neurons in layer #" + AnsiString(i)+": " + AnsiString(net->getNumberOfNeuronsInLayer(i)));
 	}
-	
+
 	int package_counter = 0;
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 50; i++) {
+
 		if(package_counter == package_count){
 			package_counter = 0;
 		}
+
+		int* fake_package = new int[package_count];
+		for(int z = 0; z < package_count-3; z += 3){
+			fake_package[z] = packages[package_counter][z] + ((rand()%600)/100)-300;
+			fake_package[z+1] = packages[package_counter][z+1] + ((rand()%100)/100)-50;
+			fake_package[z+2] = packages[package_counter][z+2];
+		}
+
 		Memo1->Lines->Add("-------------------------------");
 		Memo1->Lines->Add("learn epoch #"+AnsiString(i));
 		net->LearnEpoch(packages[package_counter], 1, Memo1);
+		net->LearnEpoch(fake_package, 0, Memo1);
 
+		delete fake_package;
+		fake_package = NULL;
 		Memo2->Lines->Clear();
 		for(int j = 1; j < net->getNumberOfLayers(); j++){
 			Memo2->Lines->Add("Weight matrix between layers #"+AnsiString(j-1)+
@@ -102,6 +116,7 @@ if (!flag) {
 		}
 		package_counter++;
 	}
+	network = net;
 }
 //---------------------------------------------------------------------------
 
@@ -242,3 +257,67 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 	form2->ShowModal();
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::Button3Click(TObject *Sender)
+{
+	TForm2 *form2 = new TForm2(this, Memo1, learn_data_array);
+	form2->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button5Click(TObject *Sender)
+{
+
+bool flag = true;
+
+ if (Edit1->Text == "" || Edit1->Text == "0") {
+   flag = false;
+ }
+ for(int i=0; i<n_of_layers;i++){
+   if (((TEdit*)ScrollBox1->FindComponent("EditT"+String(i)))->Text == "" || StrToInt(((TEdit*)ScrollBox1->FindComponent("EditT"+String(i)))->Text) == 0){
+	 flag = false;
+   }
+ }
+
+if (!flag) {
+	ShowMessage("Значення не можуть бути нульовими!!!");
+	return;
+}
+
+	AnsiString array_string = AnsiString("");
+	for(int i = 0; i < n_of_needed_symvols; i++){
+		array_string += learn_data_array[i];
+		array_string += "   ";
+	}
+
+	int package_count = ceil(n_of_needed_symvols/network->getNumberOfNeuronsInLayer(0));
+	int **packages = new int*[package_count];
+	for (int i = 0; i < package_count; i++) {
+		packages[i] = new int[network->getNumberOfNeuronsInLayer(0)];
+	}
+	for(int i = 0; i < package_count; i++){
+		AnsiString package_string = AnsiString("");
+		for(int j = 0; j < network->getNumberOfNeuronsInLayer(0); j++){
+			int index = j + i*network->getNumberOfNeuronsInLayer(0);
+			if(index < n_of_needed_symvols){
+				package_string += learn_data_array[index];
+				packages[i][j] = learn_data_array[index];
+			}else{
+				package_string += AnsiString("0");
+				packages[i][j] = 0;
+			}
+			package_string += "   ";
+		}
+		Memo1->Lines->Add("Package# " + AnsiString(i) + ": " + package_string);
+	}
+	Memo1->Lines->Add("number of layers: " + AnsiString(network->getNumberOfLayers()));
+	for(int i = 0 ; i < network->getNumberOfLayers(); i++){
+		Memo1->Lines->Add("number of neurons in layer #" + AnsiString(i)+": " + AnsiString(network->getNumberOfNeuronsInLayer(i)));
+	}
+
+	for (int i = 0; i < package_count; i++) {
+		int result = network->LinearMode(packages[i], Memo1, true);
+		Memo1->Lines->Add(AnsiString(result));
+	}
+}
+//---------------------------------------------------------------------------
+
