@@ -186,13 +186,22 @@ object Form1: TForm1
       OnClick = LearnClick
     end
     object Button4: TButton
-      Left = 134
+      Left = 130
       Top = 47
-      Width = 121
+      Width = 125
       Height = 25
-      Caption = #1047#1072#1074#1072#1085#1090#1072#1078#1080#1090#1080' '#1079' '#1092#1072#1081#1083#1091
+      Caption = #1047#1073#1077#1088#1077#1075#1090#1080' '#1074' '#1092#1072#1081#1083
       TabOrder = 2
       OnClick = Button4Click
+    end
+    object Button6: TButton
+      Left = 130
+      Top = 16
+      Width = 125
+      Height = 25
+      Caption = #1047#1072#1074#1072#1085#1090#1072#1078#1080#1090#1080' '#1079' '#1092#1072#1081#1083#1091
+      TabOrder = 3
+      OnClick = Button6Click
     end
   end
   object GroupBox5: TGroupBox
@@ -223,6 +232,10 @@ object Form1: TForm1
   end
   object SaveDialog1: TSaveDialog
     Left = 80
+    Top = 152
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 144
     Top = 152
   end
 end

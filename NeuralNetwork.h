@@ -35,6 +35,7 @@ public:
   void setNet(double value){net_signal = value;};
   double getActiveSignal(){return active_signal;};
   double getWeight(int);
+  void setWeights(double*  weights){input_weights = weights;};
   void setError(double e){error = e;};
   double getError(){return error;};
 

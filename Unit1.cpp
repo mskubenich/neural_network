@@ -316,10 +316,16 @@ if (!flag) {
 		Memo1->Lines->Add("number of neurons in layer #" + AnsiString(i)+": " + AnsiString(network->getNumberOfNeuronsInLayer(i)));
 	}
 
+	int result;
 	for (int i = 0; i < package_count; i++) {
 		int result = network->LinearMode(packages[i], Memo1, true);
 		Memo1->Lines->Add(AnsiString(result));
 	}
+	if(result == 0){
+		ShowMessage("Ви не пройшли аутентифікацію");
+	}else{
+		ShowMessage("Вітаємо! Ви пройшли аутентифікацію");
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -338,22 +344,77 @@ void __fastcall TForm1::Button4Click(TObject *Sender)
 			for(int j = 0; j < network->getNumberOfNeuronsInLayer(i); j++){
 				Neuron *neuron = network->getNeuron(i,j);
 				if(i == 0){
-					for(int z = 0; z < network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-1); z++){
+					for(int z = 0; z < network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-2); z++){
 						myfile << AnsiString(neuron->getWeight(z)).c_str();
 						myfile << "\n";
 					}
 				}else{
-					for(int z = 0; z < network->getNumberOfNeuronsInLayer(z); z++){
+					for(int z = 0; z < network->getNumberOfNeuronsInLayer(i-1); z++){
 						myfile << AnsiString(neuron->getWeight(z)).c_str();
 						myfile << "\n";
 					}
-                }
+				}
 			}
 		}
 
 
 		myfile.close();
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button6Click(TObject *Sender)
+{
+   if (!OpenDialog1->Execute()) return;
+   TStringList *list = new TStringList;
+   list->LoadFromFile(OpenDialog1->FileName);
+   Edit1->Text = AnsiString(list->Strings[0]);
+   for(int i=0; i<n_of_layers;i++){
+		((TEdit*)ScrollBox1->FindComponent("EditT"+String(i)))->Text = AnsiString(list->Strings[i+1]);
+   }
+   Button2->Click();
+
+   network = new NeuralNetwork(neurons_in_layer, n_of_layers);
+   int position = n_of_layers+1;
+   //position++;
+   for(int i = 0; i < network->getNumberOfLayers(); i++){
+		for(int j = 0; j < network->getNumberOfNeuronsInLayer(i); j++){
+			Neuron *neuron = network->getNeuron(i,j);
+			if(i == 0){
+				double* weights = new double[network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-2)];
+				for(int z = 0; z < network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-2); z++){
+					weights[z] = StrToFloat(list->Strings[position]);
+					position++;
+				}
+				neuron->setWeights(weights);
+			}else{
+				double* weights = new double[network->getNumberOfNeuronsInLayer(i-1)];
+				for(int z = 0; z < network->getNumberOfNeuronsInLayer(i-1); z++){
+					weights[z] = StrToFloat(AnsiString(list->Strings[position]));
+					position++;
+				}
+				neuron->setWeights(weights);
+			}
+		}
+	}
+	for(int j = 1; j < network->getNumberOfLayers(); j++){
+		Memo2->Lines->Add("Weight matrix between layers #"+AnsiString(j-1)+
+		" and #"+AnsiString(j));
+		Memo2->Lines->Add("");
+		for(int k = 0; k < network->getNumberOfNeuronsInLayer(j-1); k++){
+			AnsiString row = "";
+			for( int z = 0; z < network->getNumberOfNeuronsInLayer(j); z++){
+				AnsiString str;
+				double x = floor((network->getNeuron(j, z)->getWeight(k))*1000)/1000;
+
+				row += "   " + AnsiString(x);
+			}
+			Memo2->Lines->Add(row);
+		}
+		Memo2->Lines->Add("");
+	}
+
+   delete list;
 }
 //---------------------------------------------------------------------------
 
