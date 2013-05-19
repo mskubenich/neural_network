@@ -5,6 +5,8 @@
 #include "NeuralNetwork.h"
 #pragma hdrstop
 
+#include <fstream>
+
 #include "Unit1.h"
 #include "Unit2.h"
 //---------------------------------------------------------------------------
@@ -317,6 +319,40 @@ if (!flag) {
 	for (int i = 0; i < package_count; i++) {
 		int result = network->LinearMode(packages[i], Memo1, true);
 		Memo1->Lines->Add(AnsiString(result));
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button4Click(TObject *Sender)
+{
+	if(SaveDialog1->Execute()){
+		ofstream myfile;
+		myfile.open(SaveDialog1->FileName.c_str());
+		myfile << AnsiString(network->getNumberOfLayers()).c_str();
+		myfile << "\n";
+		for(int i = 0; i < network->getNumberOfLayers(); i++){
+			myfile << AnsiString(network->getNumberOfNeuronsInLayer(i)).c_str();
+			myfile << "\n";
+		}
+		for(int i = 0; i < network->getNumberOfLayers(); i++){
+			for(int j = 0; j < network->getNumberOfNeuronsInLayer(i); j++){
+				Neuron *neuron = network->getNeuron(i,j);
+				if(i == 0){
+					for(int z = 0; z < network->getNumberOfNeuronsInLayer(network->getNumberOfLayers()-1); z++){
+						myfile << AnsiString(neuron->getWeight(z)).c_str();
+						myfile << "\n";
+					}
+				}else{
+					for(int z = 0; z < network->getNumberOfNeuronsInLayer(z); z++){
+						myfile << AnsiString(neuron->getWeight(z)).c_str();
+						myfile << "\n";
+					}
+                }
+			}
+		}
+
+
+		myfile.close();
 	}
 }
 //---------------------------------------------------------------------------

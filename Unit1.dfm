@@ -192,6 +192,7 @@ object Form1: TForm1
       Height = 25
       Caption = #1047#1072#1074#1072#1085#1090#1072#1078#1080#1090#1080' '#1079' '#1092#1072#1081#1083#1091
       TabOrder = 2
+      OnClick = Button4Click
     end
   end
   object GroupBox5: TGroupBox
@@ -219,5 +220,9 @@ object Form1: TForm1
       TabOrder = 1
       OnClick = Button5Click
     end
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 80
+    Top = 152
   end
 end

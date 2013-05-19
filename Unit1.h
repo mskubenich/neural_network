@@ -8,6 +8,7 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -31,6 +32,7 @@ __published:	// IDE-managed Components
 	TButton *Button4;
 	TGroupBox *GroupBox5;
 	TButton *Button5;
+	TSaveDialog *SaveDialog1;
 	void __fastcall Edit1Change(TObject *Sender);
 	void __fastcall Edit1KeyPress(TObject *Sender, System::WideChar &Key);
 	void __fastcall Button2Click(TObject *Sender);
@@ -38,6 +40,7 @@ __published:	// IDE-managed Components
 	void __fastcall LearnClick(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall Button5Click(TObject *Sender);
+	void __fastcall Button4Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
